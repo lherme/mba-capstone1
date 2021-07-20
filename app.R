@@ -81,7 +81,7 @@ server <- function(input, output, session) {
         if (is.element(input$info,cpopg[[2]]) == FALSE){
             paste0("")
         } else {
-        paste0("Seu processo está tramitando no ", cpopg[cpopg[[2]]==input$info, 6])
+        paste0("Seu processo está tramitando no", cpopg[cpopg[[2]]==input$info, 6])
         }
     })
     
