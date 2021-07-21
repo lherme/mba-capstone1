@@ -52,6 +52,8 @@ glossario_decisao <- function(x){
   )
 }
 
+# classificar as decisoes
+
 mov_cpopg <- cpopg %>% 
   select(id_processo, movimentacoes) %>% 
   unnest(movimentacoes) %>% 
