@@ -2,6 +2,7 @@ library(shiny)
 library(shinyWidgets)
 library(dplyr)
 library(shinythemes)
+library(stringr)
 
 
 
@@ -29,7 +30,7 @@ cpopg <- cpopg %>%
 ui <- fluidPage(theme = shinytheme("united"),
 
     # Título do app
-    h3(id="justica_simples", "Justiça Simples"), tags$style(HTML("#justica_simples{font-size: 12px}")),
+    h3(id="justica_simples", "Justiça Simples"), tags$style(HTML("#justica_simples{font-size: 24px}")),
     h1(id="titulo", "Busca Processo"), tags$style(HTML("#titulo{font-size: 24px}")),
 
     # Barra lateral
