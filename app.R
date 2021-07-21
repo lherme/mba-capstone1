@@ -1,6 +1,9 @@
 library(shiny)
 library(shinyWidgets)
 library(dplyr)
+library(shinythemes)
+
+
 
 #Carregamento de dados
 load("cpopg.RData")
@@ -16,13 +19,17 @@ paste3 <- function(...,sep=", ") {
     ret
 }
 
+#trata dado de distribuição
+
+cpopg <- cpopg %>% 
+    dplyr::mutate(Distribuição = str_sub(Distribuição, end = -8))
 
 
 # Definição do UI
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("united"),
 
     # Título do app
-    h3(id="defensoria", "Defensoria Pública do Estado de São Paulo"), tags$style(HTML("#defensoria{font-size: 12px}")),
+    h3(id="justica_simples", "Justiça Simples"), tags$style(HTML("#justica_simples{font-size: 12px}")),
     h1(id="titulo", "Busca Processo"), tags$style(HTML("#titulo{font-size: 24px}")),
 
     # Barra lateral
@@ -47,7 +54,7 @@ ui <- fluidPage(
         mainPanel(
             textOutput("foro"),
             textOutput("sel_processo"),
-            textOutput("status"),
+            textOutput("distribuicao"),
             textOutput("nome"),
            # div(style="width:500px;",fluidRow(verbatimTextOutput("historico", placeholder = TRUE)))
            br(),
@@ -56,18 +63,18 @@ ui <- fluidPage(
         )
         
     ),
-    tags$head(tags$style("#nome{font-size: 20px;
+    tags$head(tags$style("#nome{font-size: 14px;
                                  font-weight: 600;
                                  }"
     )
     ),
-    tags$head(tags$style("#status{font-size: 14px;
+    tags$head(tags$style("#distribuicao{font-size: 14px;
                                  font-weight: 400;
                                  }"
     )
     ),
-    tags$head(tags$style("#sel_processo, #foro {font-size: 10px;
-                                 font-weight: 200;
+    tags$head(tags$style("#sel_processo, #foro {font-size: 14px;
+                                 font-weight: 400;
                                  }"
     )
     ),
@@ -81,7 +88,7 @@ server <- function(input, output, session) {
         if (is.element(input$info,cpopg[[2]]) == FALSE){
             paste0("")
         } else {
-        paste0(cpopg[cpopg[[2]]==input$info, 6])
+        paste0("Seu processo está tramitando no ", cpopg[cpopg[[2]]==input$info, 6])
         }
     })
     
@@ -89,15 +96,15 @@ server <- function(input, output, session) {
         if (is.element(input$info,cpopg[[2]]) == FALSE) {
             paste0("")
         } else {
-        paste0(input$info)
+        paste0("Número do processo: ", input$info)
         }
     })
     
-    output$status <- renderText({
+    output$distribuicao <- renderText({
         if (is.element(input$info,cpopg[[2]]) == FALSE) {
             paste0("")
         } else {
-        paste0("Status do processo: ", cpopg[cpopg[[2]]==input$info, 3])
+        paste0("Seu processo foi iniciado em ", cpopg[cpopg[[2]]==input$info, 9])
         }
     })
     
